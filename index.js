@@ -1,5 +1,6 @@
 var request = require('request'),
 	hosts = require('./config/url.json'),
+	topofy = require('./topofier'),
 	http = require('http');
 
 http.createServer(function (req, res) {
