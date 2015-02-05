@@ -1,0 +1,10 @@
+{
+	"nrm":{
+		"host":"http://watermonitoring.dnrm.qld.gov.au/cgi/webservice.server.pl",
+		"path":"/cgi/webservice.server.pl",
+		"method":"GET",
+		"headers": {
+		    "Content-Type": "application/json; charset=utf-8"
+		}
+	}
+}

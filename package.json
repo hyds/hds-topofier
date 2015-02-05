@@ -1,0 +1,25 @@
+{
+  "name": "hds-topofy-hydstra",
+  "version": "1.0.0",
+  "description": "webservice to turn hydstra webservice latlong into topoJSON",
+  "main": "index.js",
+  "scripts": {
+    "start": "index.js --live"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hyds/hds-topofy-hydstra.git"
+  },
+  "devDependencies": {
+    "gulp": "^3.0.0",
+    "request": "^2.53.0"
+  },
+  "keywords": [
+    "topojson",
+    "hydrology",
+    "water",
+    "leaflet"
+  ],
+  "author": "Sholto Maud",
+  "license": "MIT"
+}
