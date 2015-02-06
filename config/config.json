@@ -1,0 +1,34 @@
+[
+	{
+		"orgcode":"nrm",
+		"system":"gwdb",
+		"host":"http://watermonitoring.dnrm.qld.gov.au/cgi/webservice.server.pl",
+		"path":"/cgi/webservice.server.pl",
+		"method":"GET",
+		"bounds":{
+			"west":137.845459,
+			"south":-29.340284,
+			"east":153.863525,
+			"north":-9.726654
+		},
+		"headers": {
+		    "Content-Type": "application/json; charset=utf-8"
+		}
+	},
+	{
+		"orgcode":"nrm",
+		"system":"hydstra",
+		"host":"http://watermonitoring.dnrm.qld.gov.au/cgi/webservice.server.pl",
+		"path":"/cgi/webservice.server.pl",
+		"method":"GET",
+		"bounds":{
+			"west":137.845459,
+			"south":-29.340284,
+			"east":153.863525,
+			"north":-9.726654
+		},
+		"headers": {
+		    "Content-Type": "application/json; charset=utf-8"
+		}
+	}
+]
