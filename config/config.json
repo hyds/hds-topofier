@@ -1,7 +1,25 @@
 [
 	{
+		"orgcode":"dpi",
+		"system":"hydstra",
+		"state":"nsw",
+		"host":"http://realtimedata.water.nsw.gov.au/cgi/webservice.server.pl",
+		"path":"/cgi/webservice.server.pl",
+		"method":"GET",
+		"bounds":{
+			"west":137.845459,
+			"south":-29.340284,
+			"east":153.863525,
+			"north":-9.726654
+		},
+		"headers": {
+		    "Content-Type": "application/json; charset=utf-8"
+		}
+	},
+	{
 		"orgcode":"nrm",
 		"system":"gwdb",
+		"state":"qld",
 		"host":"http://watermonitoring.dnrm.qld.gov.au/cgi/webservice.server.pl",
 		"path":"/cgi/webservice.server.pl",
 		"method":"GET",
@@ -17,6 +35,7 @@
 	},
 	{
 		"orgcode":"nrm",
+		"state":"qld",
 		"system":"hydstra",
 		"host":"http://watermonitoring.dnrm.qld.gov.au/cgi/webservice.server.pl",
 		"path":"/cgi/webservice.server.pl",
