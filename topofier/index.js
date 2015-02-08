@@ -1,81 +1,56 @@
 var hosts = require('../config/config.json');
 var through = require('through');
+//var geojson = require('./geojson.json');
+var moment = require('moment');
 
-
-var tr = through(function (buf) {
-    this.queue(buf.toString().toUpperCase());
-});
-
-process.stdin.pipe(tr).pipe(process.stdout);
-
-
-
-
+var geojson = {
+	"type": "FeatureCollection",
+};
 
 module.exports = { 
-
-	checkBounds : function  (argument) {
-		checkHosts();
-	},
-	geofy : function (req){
-		through(function (buf) {
-	    	console.log('req [',req,']')
-	    	//this.queue(buf.toString().toUpperCase());
-		})
-	}
-
-
+	geofy : geofy
 }
 
+function geofy (buf) {
+	var line = buf.toString();
+    console.log('buffer [',buf,']');
+    console.log('line [',line,']');
+    
+    /*
+    var site = buf;
+    var features = [];
+    var feature = {
+	      	"type": "Feature",
+	      	"geometry": {
+	        	"type": "Point",
+    		}
+    };
 
-function checkHosts (argument) {
-	for (var i = 0; i < hosts.length; i++) {
-		console.log(hosts[i]);
-	};
-}
+    var coordinates = [];
+    coordinates.push(site.longitude).push(site.latitude);
+    delete site.longitude;
+    delete site.latitude;
 
-function topofy (argument) {
-	
-}
+    feature.geometry.coordinates = coordinates;
+    feature.properties = site;
 
-var data = {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [ 146.62987,-24.1000]
-      },
-      "properties": {
-        "name": "Coors Field1",
-        "amenity": "Baseball Stadium",
-        "popupContent": "This is where the Rockies play!"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [146.62987,-25.2000]
-      },
-      "properties": {
-        "name": "Coors Field2",
-        "amenity": "Baseball Stadium2",
-        "popupContent": "This is where the Rockies play2!"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [146.62987,-26.3000]
-      },
-      "properties": {
-        "name": "Coors Field3",
-        "amenity": "Baseball Stadium",
-        "popupContent": "This is where the Rockies play3!"
-      }
+    features.push(feature);
+    geojson.features = features;
+
+  	console.log('line [',geojson,']');
+    function write (row) {
+        counts[row.country] = (counts[row.country] || 0) + 1;
     }
-  ]
+
+    */
+
+	//return geojson;
 }
+
+/*
+{"station": "070048", "longitude": "149.44790000", "stname": "HOSKINTOWN RADIO
+ OBSERVATORY (CBM)", "active": false, "stntype": "WEA", "elev": "1.910", "datemo
+d": 20111111, "latitude": "-35.36840000", "lldatum": "GDA94", "orgcode": "CBM"}
+
+
+*/

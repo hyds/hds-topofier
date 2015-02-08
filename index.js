@@ -1,9 +1,72 @@
+var http = require('http');
 var request = require('request'),
 	hosts = require('./config/config.json'),
 	through = require('through'),
 	topofy = require('./topofier'),
-	http = require('http')
-	geojson = require('./geojson.json');
+	testes = require('./hydstra').test(),
+	geojson = require('./topofier/geojson.json'),
+	fs = require('fs');
+
+
+
+var server = http.createServer(function (req, res) {
+	var body = 'hello world';
+	var url = req.url;
+	//console.log("url",url);
+	res.removeHeader("Cache-Control");
+	res.setHeader("Content-Type", "application/json; charset=utf-8");
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	
+	var writable = fs.createWriteStream('file.txt');
+	
+
+	 if (req.method === 'GET') {
+        //console.log(req);
+        req.pipe(through(writable));
+        res.write(JSON.stringify(geojson));
+        req.pipe(res);
+    }
+    else res.end('send me a GET\n');
+
+ 
+
+
+
+	/*
+	req.pipe(through(function (buf) {
+	            console.log('GET req, ulr [',url,']');
+	            this.queue(buf.toString().toUpperCase());
+	        })).pipe(res);
+
+
+		// Readable streams emit 'data' events once a listener is added
+		req.on('data', function (chunk) {
+				console.log('chunk',chunk);
+				body += chunk;
+			})
+			.on('end', function () {
+				try {
+				  //var data = JSON.parse(body);
+				  console.log("body",body);
+				  var data = body;
+				} catch (er) {
+				  // uh oh!  bad json!
+				  res.statusCode = 400;
+				  return res.end('error: ' + er.message);
+				}
+
+		// write back something interesting to the user:
+		res.write(data);
+		res.end();
+		});
+	*/	
+});
+
+server.listen(8800);
+console.log('listening on port 8800');
+
+
+/*
 
 http.createServer(function (req, res) {
 	var url = req.url;
@@ -13,21 +76,32 @@ http.createServer(function (req, res) {
 	res.removeHeader("Cache-Control");
 	res.setHeader("Content-Type", "application/json; charset=utf-8");
 	res.setHeader("Access-Control-Allow-Origin", "*");
-	console.log('ulr [',url,']');
 	if (req.method === 'GET') {
-		//console.log('line [',geojson,']');
-        req
-        	.pipe( through(function (buf) {
-	            var line = buf.toString();
-			    console.log('line [',geojson,']');
-			    console.log('line [',line,']');
-			    this.queue(geojson);
+		
+		req.pipe(through(function (buf) {
+            console.log('GET req, ulr [',url,']');
+            this.queue(buf.toString().toUpperCase());
+        })).pipe(res);
+
+		/*
+		function test(buf){
+			console.log("test pipe",buf);
+			return geojson;
+		}
+
+		req.pipe(through()
+			.pipe(through(function (buf) {
+	            //this.queue(topofy.geofy(buf));
+	            this.queue(geojson);
+	            this.queue(hydstra.getSites(buf));
 	        }))
 	        .pipe(res)
 	        .on('error', function(err) {
 		    	console.log(err);
 			})
+		*/
         //console.log(res);
+  /*
     }
     else res.end(console.log('send me a GET\n'));
 
@@ -56,6 +130,8 @@ http.createServer(function (req, res) {
 	  	})
 	  	.pipe(res);
 	*/
+/*
+
 }).listen(8800);
 
 console.log("listening on 8800");
