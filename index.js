@@ -26,7 +26,8 @@ var server = http.createServer(function (req, res) {
         //sites.pipe(res);
         //"jsoncallback=test&" + 
         //var host = 'http://realtimedata.water.nsw.gov.au/cgi/webservice.server.pl?';
-        var host = 'http://watermonitoring.dnrm.qld.gov.au/cgi/webservice.server.pl?';
+        //var host = 'http://watermonitoring.dnrm.qld.gov.au/cgi/webservice.server.pl?';
+		var host = 'http://data.water.vic.gov.au/cgi/webservice.server.pl?';
 		var query  = host + JSON.stringify(queries.getsites) +"&userid=363708495";
 
 		var stream = JSONStream.parse('rows.*');

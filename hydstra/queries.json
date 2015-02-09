@@ -4,7 +4,7 @@
 		"version":"3",
 		"params":{
 			"table_name":"site",
-			"sitelist_filter":"match(1*)",
+			"sitelist_filter":"match(44*)",
 			"return_type":"array",
 			"field_list":["latitude","longitude","stname","station","active","datemod","lldatum","elev","stntype","orgcode"]
 		}
