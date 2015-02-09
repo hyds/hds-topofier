@@ -6,11 +6,9 @@ var through = require('through');
 var host = 'http://realtimedata.water.nsw.gov.au/cgi/webservice.server.pl?';
 
 module.exports = {
-	getSites : function (buf){
-		console.log('getSites', buf);
-		var sites = through(hydservice);
-		console.log('sites', sites);
-		return sites;
+	getAllSites : function (url){
+		var sites = through(hyservice);
+        return sites;
 	},
 	test : function (buf){ through( function(buf){
 		this.queue(buf.toString().toUpperCase());
@@ -21,7 +19,7 @@ module.exports = {
 function hyservice (req) {
     var query  = host + "jsoncallback=test&" + JSON.stringify(queries.getsites) +"&userid=363708495";
 	console.log('witin hyservice', query);
-	counts[row.country] = (counts[row.country] || 0) + 1;
+	//counts[row.country] = (counts[row.country] || 0) + 1;
     var data = request
 		.get(query)
 	  	.on('error', function(err) {
@@ -29,6 +27,11 @@ function hyservice (req) {
 	  	})
 	return data;
 }
+
+
+
+
+
 
 /*
 	var input = through();

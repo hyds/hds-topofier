@@ -1,50 +1,92 @@
 var hosts = require('../config/config.json');
 var through = require('through');
 //var geojson = require('./geojson.json');
+var duplexer = require('duplexer');
 var moment = require('moment');
+var fs = require('fs');
 
-var geojson = {
-	"type": "FeatureCollection",
-};
+
 
 module.exports = { 
-	geofy : geofy
+	geofy : function geofy(buf){
+        var input = through(write, end);
+        var geojson = {
+            "type": "FeatureCollection",
+        };
+        
+        function write (row) {
+        
+            var line = JSON.parse(buf.toString().replace(/;$/,""));
+        
+            var sites = line._return.rows;
+            var features = [];
+            var feature = {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                    }
+            };
+
+            for (var i = 0; i < sites.length; i++) {
+                var coordinates = [];
+                coordinates.push(sites[i].longitude);
+                coordinates.push(sites[i].latitude);
+                delete sites[i].longitude;
+                delete sites[i].latitude;
+                feature.geometry.coordinates = coordinates;
+                feature.properties = sites[i];
+                features.push(feature);
+            }   
+
+            geojson.features = features;
+
+            
+
+            
+
+        
+            
+        }
+        
+        function end () { console.log('geojson [',geojson,']'); }
+
+        return duplexer(input, geojson);
+
+    }
 }
 
-function geofy (buf) {
-	var line = buf.toString();
-    console.log('buffer [',buf,']');
-    console.log('line [',line,']');
+
+
+
+
+function geofyOld (buf) {
+    var line = JSON.parse(buf.toString().replace(/;$/,""));
     
-    /*
-    var site = buf;
+    var sites = line._return.rows;
     var features = [];
     var feature = {
-	      	"type": "Feature",
-	      	"geometry": {
-	        	"type": "Point",
-    		}
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+            }
     };
 
-    var coordinates = [];
-    coordinates.push(site.longitude).push(site.latitude);
-    delete site.longitude;
-    delete site.latitude;
+    for (var i = 0; i < sites.length; i++) {
+        var coordinates = [];
+        coordinates.push(sites[i].longitude);
+        coordinates.push(sites[i].latitude);
+        delete sites[i].longitude;
+        delete sites[i].latitude;
+        feature.geometry.coordinates = coordinates;
+        feature.properties = sites[i];
+        features.push(feature);
+    }   
 
-    feature.geometry.coordinates = coordinates;
-    feature.properties = site;
-
-    features.push(feature);
     geojson.features = features;
 
-  	console.log('line [',geojson,']');
-    function write (row) {
-        counts[row.country] = (counts[row.country] || 0) + 1;
-    }
+  	//console.log('geojson [',geojson,']');
 
-    */
-
-	//return geojson;
+	return geojson;
 }
 
 /*

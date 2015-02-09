@@ -2,10 +2,14 @@ var http = require('http');
 var request = require('request'),
 	hosts = require('./config/config.json'),
 	through = require('through'),
+	split = require('split'),
+	JSONStream = require('JSONStream'),
 	topofy = require('./topofier'),
-	testes = require('./hydstra').test(),
+	hydstra = require('./hydstra'),
 	geojson = require('./topofier/geojson.json'),
-	fs = require('fs');
+	fs = require('fs'),
+	queries = require('./hydstra/queries.json');
+
 
 
 
@@ -17,22 +21,51 @@ var server = http.createServer(function (req, res) {
 	res.setHeader("Content-Type", "application/json; charset=utf-8");
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	
-	var writable = fs.createWriteStream('file.txt');
-	
+	if (req.method === 'GET') {
+        //var sites = hydstra.getAllSites(url);
+        //console.log(sites);
+        //sites.pipe(res);
+        //"jsoncallback=test&" + 
+        var host = 'http://realtimedata.water.nsw.gov.au/cgi/webservice.server.pl?';
+		var query  = host + JSON.stringify(queries.getsites) +"&userid=363708495";
 
-	 if (req.method === 'GET') {
-        //console.log(req);
-        req.pipe(through(writable));
-        res.write(JSON.stringify(geojson));
-        req.pipe(res);
+		var stream = JSONStream.parse('rows.*');
+        var data = request.get(query)
+		  	.on('error', function(err) {
+		    	console.log(err)
+		  	})
+			.pipe(split())
+			.pipe(through(	
+				function (buf) { 
+					this.emit(topofy.geofy(buf));
+				}
+				))
+			.pipe(res);
+
+
+
+        //req.pipe(through(writable));
+        //res.write(JSON.stringify(geojson));
+        //var stream = fs.createReadStream(__dirname + '/topofier/geojson.json');
+    	//stream.pipe(res);	
+
+        //req.pipe(through(function (buf) {
+        //    this.queue(console.log(buf.toString())) ;
+        //})).pipe(res);
+
+        //req.pipe(res);
     }
     else res.end('send me a GET\n');
 
  
 
-
-
 	/*
+
+
+	},
+				function end () { 
+				    this.emit('end')
+				}
 	req.pipe(through(function (buf) {
 	            console.log('GET req, ulr [',url,']');
 	            this.queue(buf.toString().toUpperCase());
