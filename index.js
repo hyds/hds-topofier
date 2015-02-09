@@ -6,7 +6,6 @@ var request = require('request'),
 	JSONStream = require('JSONStream'),
 	topofy = require('./topofier'),
 	hydstra = require('./hydstra'),
-	geojson = require('./topofier/geojson.json'),
 	fs = require('fs'),
 	queries = require('./hydstra/queries.json');
 
@@ -26,7 +25,8 @@ var server = http.createServer(function (req, res) {
         //console.log(sites);
         //sites.pipe(res);
         //"jsoncallback=test&" + 
-        var host = 'http://realtimedata.water.nsw.gov.au/cgi/webservice.server.pl?';
+        //var host = 'http://realtimedata.water.nsw.gov.au/cgi/webservice.server.pl?';
+        var host = 'http://watermonitoring.dnrm.qld.gov.au/cgi/webservice.server.pl?';
 		var query  = host + JSON.stringify(queries.getsites) +"&userid=363708495";
 
 		var stream = JSONStream.parse('rows.*');
@@ -35,18 +35,15 @@ var server = http.createServer(function (req, res) {
 		    	console.log(err)
 		  	})
 			.pipe(split())
-			.pipe(through(	
-				function (buf) { 
-					this.emit(topofy.geofy(buf));
-				}
-				))
+			.pipe(topofy.geofy())
+			//.pipe(fs.writeFile(__dirname + 'geojson.json'))
 			.pipe(res);
 
 
 
         //req.pipe(through(writable));
         //res.write(JSON.stringify(geojson));
-        //var stream = fs.createReadStream(__dirname + '/topofier/geojson.json');
+        //var stream = 
     	//stream.pipe(res);	
 
         //req.pipe(through(function (buf) {

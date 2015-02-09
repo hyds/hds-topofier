@@ -4,20 +4,16 @@
   "description": "webservice to turn hydstra webservice latlong into topoJSON",
   "main": "index.js",
   "scripts": {
-    "start": "index.js --live"
+    "start": "node index.js --live"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/hyds/hds-topofy-hydstra.git"
   },
   "devDependencies": {
-    "JSONStream": "^0.10.0",
-    "duplex": "^1.0.0",
-    "duplexer": "^0.1.1",
     "gulp": "^3.0.0",
     "moment": "^2.9.0",
     "request": "^2.53.0",
-    "split": "^0.3.3",
     "through": "^2.3.6",
     "url": "^0.10.2"
   },

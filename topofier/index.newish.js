@@ -1,75 +1,24 @@
+var hosts = require('../config/config.json');
+var through = require('through');
+//var geojson = require('./geojson.json');
+var duplexer = require('duplexer');
+var moment = require('moment');
+var fs = require('fs');
 var stream = require('stream');
-var util = require('util');
+var Duplex = stream.Duplex || require('readable-stream').Duplex;
 
-// node v0.10+ use native Transform, else polyfill
-var Transform = stream.Transform;
+var Writable = require('stream').Writable;
 
 
-var geojson = { "type": "FeatureCollection"};
+var geofy = Writable({ decodeStrings: false });
 
-function Geofy(options) {
-  // allow use without new
-  if (!(this instanceof Geofy)) {
-    return new Geofy(options);
-  }
-
-  // init Transform
-  Transform.call(this, options);
-}
-
-util.inherits(Geofy, Transform);
-
-Geofy.prototype._transform = function (buf, enc, cb) {
-    var line = JSON.parse(buf.toString().replace(/;$/,""));
-
-    var sites = line._return.rows;
-    var features = [];
-    
-
-    for (var i = 0; i < sites.length; i++) {
-        var feature = {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-            },
-            "properties":{}
-        };
-        var coordinates = [];
-        //console.log("i [",i,"] - ",sites[i].stname);
-        //console.log(Number(sites[i].longitude));
-        //console.log(sites[i].longitude.replace(/\"/g,''));
-        coordinates.push(Number(sites[i].longitude));
-        coordinates.push(Number(sites[i].latitude));
-        //delete sites[i].longitude;
-        //delete sites[i].latitude;
-
-        feature.geometry.coordinates = coordinates;
-        //console.log("station ["+sites[i].station+"]")
-        var stname = sites[i].stname || "UNKNOWN";
-        var station = sites[i].station || "UNKNOWN";
-        var stntype =sites[i].stntype || "UNKNOWN";
-        feature.properties.name = stname;
-        feature.properties.amenity = stntype;
-        feature.properties.popupContent = "Site: " + station + " - </br>" + stname + "</br>Type: " + stntype;
-
-/*
-        {"station": "070048", "longitude": "149.44790000", "stname": "HOSKINTOWN RADIO
- OBSERVATORY (CBM)", "active": false, "stntype": "WEA", "elev": "1.910", "datemo
-d": 20111111, "latitude": "-35.36840000", "lldatum": "GDA94", "orgcode": "CBM"}
-*/
-        features.push(feature);
-    }   
-
-    geojson.features = features;
-    //console.log("geojson [",geojson,"], enc [",enc,"]");
-
-    this.push(JSON.stringify(geojson), 'utf8');
-    cb();
+geofy._write = function (chunk, enc, next) {
+    console.dir(chunk);
+    next();
 };
 
-
 module.exports = {
-    geofy : Geofy
+    geofy : geofy
 } 
 
 
