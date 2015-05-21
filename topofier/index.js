@@ -48,9 +48,11 @@ Geofy.prototype._transform = function (buf, enc, cb) {
         var stname = sites[i].stname || "UNKNOWN";
         var station = sites[i].station || "UNKNOWN";
         var stntype =sites[i].stntype || "UNKNOWN";
+        var lat =sites[i].latitude || "UNKNOWN";
+        var lon =sites[i].longitude || "UNKNOWN";
         feature.properties.name = stname;
         feature.properties.amenity = stntype;
-        feature.properties.popupContent = "<b>Site ID:</b> " + station + "</br><b>Name:</b> " + stname + "</br><b>Type:</b> " + stntype + "</br><b>Technical Risk:</b> $" + Math.round(Math.random()*100000) + "</br><b>Environmenatal Risk:</b> $" + Math.round(Math.random()*10000000)+ "</br><b>Cumulative Impact:</b> $" + Math.round(Math.random()*100000000);
+        feature.properties.popupContent = "<b>Site ID:</b> " + station + "</br><b>Name:</b> " + stname + "</br><b>Lat:</b> " + lat + "</br><b>Long:</b> " + lon + "</br><b>Type:</b> " + stntype + "</br><b>Technical Risk:</b> " + numeral(Math.round(Math.random()*100000)).format('($ 0.00 a)') + "</br><b>Env. Risk:</b> " + numeral(Math.round(Math.random()*10000000)).format('($ 0.00 a)') + "</br><b>Cumulative Impact:</b> " + numeral(Math.round(Math.random()*100000000)).format('($ 0.00 a)') + "</br><b>Hedge Book Risk:</b> " + numeral(Math.round(Math.random()*1000000)).format('($ 0.00 a)') ;
 
 /*
         {"station": "070048", "longitude": "149.44790000", "stname": "HOSKINTOWN RADIO
