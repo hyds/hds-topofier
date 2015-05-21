@@ -10,7 +10,7 @@ var request = require('request'),
 	queries = require('./hydstra/queries.json');
 
 
-
+				
 
 var server = http.createServer(function (req, res) {
 	var body = 'hello world';
@@ -26,9 +26,9 @@ var server = http.createServer(function (req, res) {
         //sites.pipe(res);
         //"jsoncallback=test&" + 
         //var host = 'http://realtimedata.water.nsw.gov.au/cgi/webservice.server.pl?';
-        //var host = 'http://watermonitoring.dnrm.qld.gov.au/cgi/webservice.server.pl?';
-		var host = 'http://data.water.vic.gov.au/cgi/webservice.server.pl?';
-		var query  = host + JSON.stringify(queries.getsites) +"&userid=363708495";
+        var host = 'http://watermonitoring.dnrm.qld.gov.au/cgi/webservice.server.pl?';
+		//var host = 'http://data.water.vic.gov.au/cgi/webservice.server.pl?';
+		var query  = host + JSON.stringify(queries.getsites);// +"&userid=363708495";
 
 		var stream = JSONStream.parse('rows.*');
         var data = request.get(query)

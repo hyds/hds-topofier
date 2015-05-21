@@ -1,6 +1,6 @@
 var stream = require('stream');
 var util = require('util');
-
+var numeral = require('numeral');
 // node v0.10+ use native Transform, else polyfill
 var Transform = stream.Transform;
 
@@ -50,7 +50,7 @@ Geofy.prototype._transform = function (buf, enc, cb) {
         var stntype =sites[i].stntype || "UNKNOWN";
         feature.properties.name = stname;
         feature.properties.amenity = stntype;
-        feature.properties.popupContent = "Site: " + station + " - </br>" + stname + "</br>Type: " + stntype;
+        feature.properties.popupContent = "<b>Site ID:</b> " + station + "</br><b>Name:</b> " + stname + "</br><b>Type:</b> " + stntype + "</br><b>Technical Risk:</b> $" + Math.round(Math.random()*100000) + "</br><b>Environmenatal Risk:</b> $" + Math.round(Math.random()*10000000)+ "</br><b>Cumulative Impact:</b> $" + Math.round(Math.random()*100000000);
 
 /*
         {"station": "070048", "longitude": "149.44790000", "stname": "HOSKINTOWN RADIO
