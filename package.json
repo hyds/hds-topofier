@@ -4,7 +4,7 @@
   "description": "webservice to turn hydstra webservice latlong into topoJSON",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js --live"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
   "devDependencies": {
     "JSONStream": "^0.10.0",
     "gulp": "^3.0.0",
-    "moment": "^2.9.0",
+    "moment": "^2.10.3",
     "numeral": "^1.5.3",
     "request": "^2.53.0",
     "split": "^0.3.3",
