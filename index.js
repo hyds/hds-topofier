@@ -13,13 +13,27 @@ var request = require('request'),
 				
 
 var server = http.createServer(function (req, res) {
-	var body = 'hello world';
 	var url = req.url;
-	//console.log("url",url);
+	console.log("req",req);
+	
 	res.removeHeader("Cache-Control");
 	res.setHeader("Content-Type", "application/json; charset=utf-8");
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	
+	// Website you wish to allow to connect
+    //res.setHeader('Access-Control-Allow-Origin', 'http://128.199.158.147:9966');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    //res.setHeader('Access-Control-Allow-Credentials', true);
+
+
 	if (req.method === 'GET') {
         //var sites = hydstra.getAllSites(url);
         //console.log(sites);

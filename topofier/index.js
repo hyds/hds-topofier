@@ -25,7 +25,7 @@ Geofy.prototype._transform = function (buf, enc, cb) {
 
     var sites = line._return.rows;
     var features = [];
-    
+    console.log('line',line);    
 
     for (var i = 0; i < sites.length; i++) {
         var feature = {
