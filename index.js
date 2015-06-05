@@ -7,14 +7,14 @@ var request = require('request'),
 	topofy = require('./topofier'),
 	hydstra = require('./hydstra'),
 	fs = require('fs'),
-	queries = require('./hydstra/queries.json');
-
-
+	url = require('url'),
+	queries = require('./hydstra/queries.json'),
+	options = require('./config');
 				
 
 var server = http.createServer(function (req, res) {
-	var url = req.url;
-	console.log("req",req);
+	//var url = req.url;
+	//console.log("req",req);
 	
 	res.removeHeader("Cache-Control");
 	res.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -40,12 +40,23 @@ var server = http.createServer(function (req, res) {
         //sites.pipe(res);
         //"jsoncallback=test&" + 
         //var host = 'http://realtimedata.water.nsw.gov.au/cgi/webservice.server.pl?';
+        
         var host = 'http://watermonitoring.dnrm.qld.gov.au/cgi/webservice.server.pl?';
 		//var host = 'http://data.water.vic.gov.au/cgi/webservice.server.pl?';
-		var query  = host + JSON.stringify(queries.getsites);// +"&userid=363708495";
+		
+		var uriUnparsed  = host + JSON.stringify(queries.getsites);// +"&userid=363708495";
+  
+		//var uriUnparsed = 'http://' + options.host + options.path + JSON.stringify(queries.getsites);
+  		
+  		console.log('uriUnparsed',uriUnparsed);
 
-		var stream = JSONStream.parse('rows.*');
-        var data = request.get(query)
+		uri = url.parse(uriUnparsed)
+		uri.path = decodeURIComponent(uri.path)
+		URIoptions = {'pool':false,'keepAlive':true,'uri':uri};
+		console.log('URIoptions',URIoptions);
+
+        var data = request.get(URIoptions)
+		//var data = request.get(query)
 		  	.on('error', function(err) {
 		    	console.log(err)
 		  	})
